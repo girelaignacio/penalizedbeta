@@ -18,7 +18,7 @@ penalized_ML <- function(
 
 
   # linear predictor
-  eta = X %*% beta                           # linear predictor
+  eta = cbind(1,X) %*% beta                           # linear predictor
   mu = stats::plogis(eta)                           # logit link
 
   # calculate likelihood
