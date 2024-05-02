@@ -7,7 +7,7 @@ fit_betareg <- function(X,y, lambda, type){
   X = cbind(1, X)
 
   # initial values
-  init  = c(1,solve(crossprod(X) + diag(lambda, ncol(X))) %*% crossprod(X,y))
+  init  = c(1,solve(diag(crossprod(X)) + diag(lambda, ncol(X))) %*% crossprod(X,y))
   #init = c(1, rep(0.5, ncol(X)))
   names(init) = c('phi','intercept')
 
