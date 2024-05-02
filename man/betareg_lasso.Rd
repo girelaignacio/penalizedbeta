@@ -23,3 +23,25 @@ fit
 \description{
 Fit beta model with L1 penalization
 }
+\examples{
+
+library(penalizedbeta)
+
+y <- data$y
+X <- data[,-1]
+
+n <- dim(X)[1]; p <- dim(X)[2]
+split <- sample(x = c("train","test"), size = n,
+                prob = c(0.8,0.2), replace = TRUE)
+Xtrain <- X[split == "train",] ; Xtest <- X[split == "test",]
+ytrain <- y[split == "train"] ; ytest <- y[split == "test"]
+
+nlambda = 100
+lambdas <-  seq(0.0001,0.1, length.out = nlambda)
+s <- lambdas[1]
+
+fit <- betareg_lasso(Xtrain,ytrain,lambda = s)
+
+ypred_test <- predict(fit, newdata = Xtest)
+mean((ytest-ypred_test)^2)
+}
