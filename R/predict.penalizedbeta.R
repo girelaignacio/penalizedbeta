@@ -16,6 +16,7 @@ predict.penalizedbeta <- function(object, newdata = NULL, ...){
   eta_hat <- cbind(1,as.matrix(newdata)) %*% beta_hat
   mu_hat <- stats::plogis(eta_hat)
   phi_hat <- object$coefficients$phi
-  y_hat <- stats::rbeta(n, shape1 = mu_hat*phi_hat, shape2 = (1-mu_hat)*phi_hat)
+  y_hat <- stats::plogis(eta_hat)
+    #stats::rbeta(n, shape1 = mu_hat*phi_hat, shape2 = (1-mu_hat)*phi_hat)
   return(y_hat)
 }

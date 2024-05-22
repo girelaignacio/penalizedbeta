@@ -20,17 +20,15 @@ penalized_ML <- function(
   # linear predictor
   eta = cbind(1,X) %*% beta                           # linear predictor
   mu = stats::plogis(eta)                           # logit link
-
+  phi = eta
   # calculate likelihood
-  l = stats::dbeta(y, shape1 = mu*phi, shape2 = (1-mu)*phi, log = FALSE)
-
-  #l[which(l == Inf)] <- 6e+300
+  ll = suppressWarnings(stats::dbeta(y, shape1 = mu*phi, shape2 = (1-mu)*phi, log = TRUE))
 
   #pen_l = -sum(l) + alpha * (lambda * sum(abs(beta[-1]))) + (1-alpha) * (lambda * crossprod(beta[-1]))
 
   switch(
     type,
-    'L1' = -sum(l) + lambda * sum(abs(beta[-1])),
-    'L2' = -sum(l) + lambda * crossprod(beta[-1])
+    'L1' = -sum(na.omit(ll)) + lambda * sum(abs(beta[-1])),
+    'L2' = -sum(na.omit(ll)) + lambda * crossprod(beta[-1])
   )
 }
